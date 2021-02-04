@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default function Navigation({ onSignOut }) {
-  const handleClick = () => onSignOut();
+export default function Navigation({ onRouteChange }) {
+  const handleClick = () => onRouteChange('sign-in');
 
   return (
     <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>

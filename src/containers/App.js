@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Clarifai from 'clarifai';
 import { API_KEY } from '../key.js';
 import SignIn from '../components/SignIn/SignIn';
+import Register from '../components/Register/Register';
 
 const app = new Clarifai.App({ apiKey: API_KEY });
 
@@ -35,7 +36,7 @@ function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
-  const [signedIn, setSignedIn] = useState(false);
+  const [route, setRoute] = useState('sign-in');
 
   const handleInputChange = (value) => {
     setInput(value);
@@ -73,16 +74,14 @@ function App() {
     setBox(box);
   };
 
-  const handleSignIn = () => setSignedIn(true);
-
-  const handleSignOut = () => setSignedIn(false);
+  const handleRouteChange = (route) => setRoute(route);
 
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
-      <Navigation onSignOut={handleSignOut} />
-      {!signedIn && <SignIn onSignIn={handleSignIn} />}
-      {signedIn && (
+      <Navigation onRouteChange={handleRouteChange} />
+      {route === 'sign-in' && <SignIn onRouteChange={handleRouteChange} />}
+      {route === 'home' && (
         <>
           <Logo />
           <Rank />
@@ -94,6 +93,7 @@ function App() {
           <FaceRecognition box={box} imageUrl={imageUrl} />
         </>
       )}
+      {route === 'register' && <Register onRouteChange={handleRouteChange} />}
     </div>
   );
 }
