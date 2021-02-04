@@ -28,6 +28,7 @@ export default function ImageLinkForm({
             value={value}
             className="f4 pa2 w-70 center"
             type="text"
+            placeholder="Insert the image URL..."
           />
           <button
             onClick={handleClick}
