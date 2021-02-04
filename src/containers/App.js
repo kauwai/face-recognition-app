@@ -8,6 +8,7 @@ import Particles from 'react-particles-js';
 import { useState } from 'react';
 import Clarifai from 'clarifai';
 import { API_KEY } from '../key.js';
+import SignIn from '../components/SignIn/SignIn';
 
 const app = new Clarifai.App({ apiKey: API_KEY });
 
@@ -34,6 +35,7 @@ function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [box, setBox] = useState({});
+  const [signedIn, setSignedIn] = useState(false);
 
   const handleInputChange = (value) => {
     setInput(value);
@@ -71,18 +73,27 @@ function App() {
     setBox(box);
   };
 
+  const handleSignIn = () => setSignedIn(true);
+
+  const handleSignOut = () => setSignedIn(false);
+
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm
-        value={input}
-        onInputChange={handleInputChange}
-        onButtonSubmit={handleButtonSubmit}
-      />
-      <FaceRecognition box={box} imageUrl={imageUrl} />
+      <Navigation onSignOut={handleSignOut} />
+      {!signedIn && <SignIn onSignIn={handleSignIn} />}
+      {signedIn && (
+        <>
+          <Logo />
+          <Rank />
+          <ImageLinkForm
+            value={input}
+            onInputChange={handleInputChange}
+            onButtonSubmit={handleButtonSubmit}
+          />
+          <FaceRecognition box={box} imageUrl={imageUrl} />
+        </>
+      )}
     </div>
   );
 }
