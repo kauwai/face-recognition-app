@@ -35,7 +35,7 @@ const particleOptions = {
 function App() {
   const [input, setInput] = useState('');
   const [imageUrl, setImageUrl] = useState('');
-  const [box, setBox] = useState({});
+  const [boxes, setBoxes] = useState([{}]);
   const [route, setRoute] = useState('sign-in');
 
   const handleInputChange = (value) => {
@@ -62,16 +62,20 @@ function App() {
     const image = document.getElementById('inputimage');
     const width = Number(image.width);
     const height = Number(image.height);
-    return {
-      leftCol: facesLocation[0].left_col * width,
-      topRow: facesLocation[0].top_row * height,
-      rightCol: width - facesLocation[0].right_col * width,
-      bottomRow: height - facesLocation[0].bottom_row * height,
-    };
+
+    const boxesArray = facesLocation.map((faceLocation) => {
+      return {
+        leftCol: faceLocation.left_col * width,
+        topRow: faceLocation.top_row * height,
+        rightCol: width - faceLocation.right_col * width,
+        bottomRow: height - faceLocation.bottom_row * height,
+      };
+    });
+    return boxesArray;
   };
 
-  const displayFaceLocations = (box) => {
-    setBox(box);
+  const displayFaceLocations = (boxes) => {
+    setBoxes(boxes);
   };
 
   const handleRouteChange = (route) => setRoute(route);
@@ -90,7 +94,7 @@ function App() {
             onInputChange={handleInputChange}
             onButtonSubmit={handleButtonSubmit}
           />
-          <FaceRecognition box={box} imageUrl={imageUrl} />
+          <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
         </>
       )}
       {route === 'register' && <Register onRouteChange={handleRouteChange} />}
