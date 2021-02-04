@@ -79,7 +79,7 @@ function App() {
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
-      <Navigation onRouteChange={handleRouteChange} />
+      <Navigation onRouteChange={handleRouteChange} route={route} />
       {route === 'sign-in' && <SignIn onRouteChange={handleRouteChange} />}
       {route === 'home' && (
         <>
