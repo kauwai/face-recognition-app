@@ -7,7 +7,19 @@ export default function SignIn({ onRouteChange }) {
   const handleEmailChange = ({ target }) => setUserEmail(target.value);
   const handlePasswordChange = ({ target }) => setUserPassword(target.value);
 
-  const handleSignInClick = () => onRouteChange('home');
+  const handleSignInClick = () => {
+    fetch('http://localhost:8080/signin', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: userEmail, password: userPassword }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message === 'Success') {
+          onRouteChange('home');
+        }
+      });
+  };
   const handleRegisterClick = () => onRouteChange('register');
   return (
     <div>
