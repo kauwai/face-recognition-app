@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function SignIn({ onRouteChange }) {
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+  const handleEmailChange = ({ target }) => setUserEmail(target.value);
+  const handlePasswordChange = ({ target }) => setUserPassword(target.value);
+
   const handleSignInClick = () => onRouteChange('home');
   const handleRegisterClick = () => onRouteChange('register');
   return (
@@ -19,6 +25,8 @@ export default function SignIn({ onRouteChange }) {
                   type="email"
                   name="email-address"
                   id="email-address"
+                  value={userEmail}
+                  onChange={handleEmailChange}
                 />
               </div>
               <div className="mv3">
@@ -30,6 +38,8 @@ export default function SignIn({ onRouteChange }) {
                   type="password"
                   name="password"
                   id="password"
+                  value={userPassword}
+                  onChange={handlePasswordChange}
                 />
               </div>
             </fieldset>
