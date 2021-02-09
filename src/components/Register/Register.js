@@ -17,7 +17,7 @@ export default function Register({ onRouteChange, onUpdateUser }) {
       .then((response) => response.json())
       .then((newUser) => {
         if (newUser) {
-          onUpdateUser(newUser);
+          onUpdateUser(newUser[0]);
           onRouteChange('home');
         }
       });
