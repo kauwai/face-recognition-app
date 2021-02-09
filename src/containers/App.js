@@ -48,6 +48,7 @@ function App() {
       try {
         const res = await app.models.predict(Clarifai.FACE_DETECT_MODEL, input);
         displayFaceLocations(calculateFaceLocations(res));
+        updateRankings();
       } catch (error) {
         console.log('An error ocurred:' + error);
       }
@@ -62,7 +63,6 @@ function App() {
       setCurrentUser(jsonUser);
     };
     fetchResponse();
-    updateRankings();
   };
 
   const calculateFaceLocations = (data) => {
