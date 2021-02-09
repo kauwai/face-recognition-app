@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Register({ onRouteChange }) {
-  const handleClick = () => onRouteChange('home');
+export default function Register({ onRouteChange, onUpdateUser }) {
+  const [newUser, setNewUser] = useState({ name: '', email: '', password: '' });
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setNewUser({ ...newUser, [name]: value });
+  };
+
+  const handleClick = () => {
+    fetch('http://localhost:8080/register', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newUser),
+    })
+      .then((response) => response.json())
+      .then((newUser) => {
+        if (newUser) {
+          onUpdateUser(newUser);
+          onRouteChange('home');
+        }
+      });
+  };
   return (
     <div>
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l shadow-5 mw6 center">
@@ -18,17 +38,21 @@ export default function Register({ onRouteChange }) {
                   type="text"
                   name="name"
                   id="name"
+                  value={newUser.name}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mt3">
-                <label className="db fw6 lh-copy f6" htmlFor="email-address">
+                <label className="db fw6 lh-copy f6" htmlFor="email">
                   Email
                 </label>
                 <input
                   className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                   type="email"
-                  name="email-address"
-                  id="email-address"
+                  name="email"
+                  id="email"
+                  value={newUser.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className="mv3">
@@ -40,6 +64,8 @@ export default function Register({ onRouteChange }) {
                   type="password"
                   name="password"
                   id="password"
+                  value={newUser.password}
+                  onChange={handleChange}
                 />
               </div>
             </fieldset>

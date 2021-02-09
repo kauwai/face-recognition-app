@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function SignIn({ onRouteChange }) {
+export default function SignIn({ onRouteChange, onUpdateUser }) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
@@ -14,8 +14,9 @@ export default function SignIn({ onRouteChange }) {
       body: JSON.stringify({ email: userEmail, password: userPassword }),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.message === 'Success') {
+      .then((user) => {
+        if (user) {
+          onUpdateUser(user);
           onRouteChange('home');
         }
       });

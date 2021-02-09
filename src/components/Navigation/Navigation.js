@@ -1,13 +1,17 @@
 import React from 'react';
 
-export default function Navigation({ onRouteChange, route }) {
+export default function Navigation({ onRouteChange, route, onLogout }) {
   const handleClick = (destination) => onRouteChange(destination);
+  const handleSignOut = () => {
+    onLogout();
+    handleClick('sign-in');
+  };
 
   if (route === 'home') {
     return (
       <nav style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <p
-          onClick={() => handleClick('sign-in')}
+          onClick={handleSignOut}
           className="f3 link dim black underline pa3 pointer"
         >
           Sign Out

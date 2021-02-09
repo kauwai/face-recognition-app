@@ -12,24 +12,13 @@ import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
 
 const app = new Clarifai.App({ apiKey: API_KEY });
-
-const particleOptions = {
-  particles: {
-    line_linked: {
-      shadow: {
-        enable: true,
-        color: '#3CA9D1',
-        blur: 5,
-      },
-    },
-    number: {
-      value: 35,
-      density: {
-        enable: true,
-        value_area: 180,
-      },
-    },
-  },
+const defaultUserStatus = {
+  id: '',
+  name: '',
+  password: '',
+  email: '',
+  entries: 0,
+  joined: '',
 };
 
 function App() {
@@ -37,6 +26,7 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
   const [boxes, setBoxes] = useState([{}]);
   const [route, setRoute] = useState('sign-in');
+  const [currentUser, setCurrentUser] = useState(defaultUserStatus);
 
   const handleInputChange = (value) => {
     setInput(value);
@@ -77,18 +67,28 @@ function App() {
   const displayFaceLocations = (boxes) => {
     setBoxes(boxes);
   };
-
+  console.log(currentUser);
   const handleRouteChange = (route) => setRoute(route);
-
+  const handleUpdateUser = (user) => setCurrentUser(user);
+  const handleLogout = () => setCurrentUser(defaultUserStatus);
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
-      <Navigation onRouteChange={handleRouteChange} route={route} />
-      {route === 'sign-in' && <SignIn onRouteChange={handleRouteChange} />}
+      <Navigation
+        onRouteChange={handleRouteChange}
+        route={route}
+        onLogout={handleLogout}
+      />
+      {route === 'sign-in' && (
+        <SignIn
+          onUpdateUser={handleUpdateUser}
+          onRouteChange={handleRouteChange}
+        />
+      )}
       {route === 'home' && (
         <>
           <Logo />
-          <Rank />
+          <Rank currentUser={currentUser} />
           <ImageLinkForm
             value={input}
             onInputChange={handleInputChange}
@@ -97,9 +97,33 @@ function App() {
           <FaceRecognition boxes={boxes} imageUrl={imageUrl} />
         </>
       )}
-      {route === 'register' && <Register onRouteChange={handleRouteChange} />}
+      {route === 'register' && (
+        <Register
+          onRouteChange={handleRouteChange}
+          onUpdateUser={handleUpdateUser}
+        />
+      )}
     </div>
   );
 }
+
+const particleOptions = {
+  particles: {
+    line_linked: {
+      shadow: {
+        enable: true,
+        color: '#3CA9D1',
+        blur: 5,
+      },
+    },
+    number: {
+      value: 35,
+      density: {
+        enable: true,
+        value_area: 180,
+      },
+    },
+  },
+};
 
 export default App;
