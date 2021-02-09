@@ -87,8 +87,7 @@ function App() {
   const displayFaceLocations = (boxes) => {
     setBoxes(boxes);
   };
-  console.log(currentUser);
-  console.log(allUsers);
+
   const handleRouteChange = (route) => setRoute(route);
   const handleUpdateUser = (user) => setCurrentUser(user);
   const handleLogout = () => {
