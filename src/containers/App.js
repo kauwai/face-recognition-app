@@ -91,7 +91,12 @@ function App() {
   console.log(allUsers);
   const handleRouteChange = (route) => setRoute(route);
   const handleUpdateUser = (user) => setCurrentUser(user);
-  const handleLogout = () => setCurrentUser(defaultUserStatus);
+  const handleLogout = () => {
+    setImageUrl('');
+    setBoxes([{}]);
+    setInput('');
+    setCurrentUser(defaultUserStatus);
+  };
   const currentRanking =
     allUsers
       .sort((a, b) => b.entries - a.entries)
