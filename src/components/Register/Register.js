@@ -23,7 +23,7 @@ export default function Register({ onRouteChange, onUpdateUser }) {
       });
   };
   return (
-    <div>
+    <form onSubmit={(event) => event.preventDefault()}>
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l shadow-5 mw6 center">
         <main className="pa4 black-80">
           <div className="measure">
@@ -51,6 +51,7 @@ export default function Register({ onRouteChange, onUpdateUser }) {
                   type="email"
                   name="email"
                   id="email"
+                  autoComplete="email"
                   value={newUser.email}
                   onChange={handleChange}
                 />
@@ -64,6 +65,7 @@ export default function Register({ onRouteChange, onUpdateUser }) {
                   type="password"
                   name="password"
                   id="password"
+                  autoComplete="new-password"
                   value={newUser.password}
                   onChange={handleChange}
                 />
@@ -80,6 +82,6 @@ export default function Register({ onRouteChange, onUpdateUser }) {
           </div>
         </main>
       </article>
-    </div>
+    </form>
   );
 }

@@ -23,7 +23,7 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
   };
   const handleRegisterClick = () => onRouteChange('register');
   return (
-    <div>
+    <form onSubmit={(event) => event.preventDefault()}>
       <article className="br3 ba b--black-10 mv4 w-100 w-50-m w-25-l shadow-5 mw6 center">
         <main className="pa4 black-80">
           <div className="measure">
@@ -39,6 +39,7 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
                   name="email-address"
                   id="email-address"
                   value={userEmail}
+                  autoComplete="username"
                   onChange={handleEmailChange}
                 />
               </div>
@@ -51,6 +52,7 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
                   type="password"
                   name="password"
                   id="password"
+                  autoComplete="current-password"
                   value={userPassword}
                   onChange={handlePasswordChange}
                 />
@@ -75,6 +77,6 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
           </div>
         </main>
       </article>
-    </div>
+    </form>
   );
 }
