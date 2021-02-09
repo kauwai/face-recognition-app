@@ -15,7 +15,7 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
     })
       .then((response) => response.json())
       .then((user) => {
-        if (user) {
+        if (user.id) {
           onUpdateUser(user);
           onRouteChange('home');
         }

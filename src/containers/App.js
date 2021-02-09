@@ -5,7 +5,7 @@ import Navigation from '../components/Navigation/Navigation';
 import Rank from '../components/Rank/Rank';
 import './App.css';
 import Particles from 'react-particles-js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Clarifai from 'clarifai';
 import { API_KEY } from '../key.js';
 import SignIn from '../components/SignIn/SignIn';
@@ -26,7 +26,17 @@ function App() {
   const [imageUrl, setImageUrl] = useState('');
   const [boxes, setBoxes] = useState([{}]);
   const [route, setRoute] = useState('sign-in');
+  const [allUsers, setAllUsers] = useState([{}]);
   const [currentUser, setCurrentUser] = useState(defaultUserStatus);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const users = await fetch('http://localhost:8080/');
+      const jsonUsers = await users.json();
+      setAllUsers(jsonUsers);
+    };
+    fetchUsers();
+  }, [currentUser]);
 
   const handleInputChange = (value) => {
     setInput(value);
@@ -42,7 +52,17 @@ function App() {
         console.log('An error ocurred:' + error);
       }
     };
+    const updateRankings = async () => {
+      const updatedUser = await fetch('http://localhost:8080/image', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(currentUser),
+      });
+      const jsonUser = await updatedUser.json();
+      setCurrentUser(jsonUser);
+    };
     fetchResponse();
+    updateRankings();
   };
 
   const calculateFaceLocations = (data) => {
@@ -68,9 +88,14 @@ function App() {
     setBoxes(boxes);
   };
   console.log(currentUser);
+  console.log(allUsers);
   const handleRouteChange = (route) => setRoute(route);
   const handleUpdateUser = (user) => setCurrentUser(user);
   const handleLogout = () => setCurrentUser(defaultUserStatus);
+  const currentRanking =
+    allUsers
+      .sort((a, b) => b.entries - a.entries)
+      .findIndex(({ name }) => name === currentUser.name) + 1;
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
@@ -88,7 +113,7 @@ function App() {
       {route === 'home' && (
         <>
           <Logo />
-          <Rank currentUser={currentUser} />
+          <Rank currentUser={currentUser} ranking={currentRanking} />
           <ImageLinkForm
             value={input}
             onInputChange={handleInputChange}
