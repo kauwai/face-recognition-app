@@ -50,5 +50,19 @@ const getAll = async () => {
   }
 };
 
+const callClarifai = async (input) => {
+  try {
+    const response = await fetch('http://localhost:8080/apiCall', {
+      method: 'post',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ input }),
+    });
+    const jsonResponse = await response.json();
+    return jsonResponse;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { create, signIn, update, getAll };
+export default { create, signIn, update, getAll, callClarifai };

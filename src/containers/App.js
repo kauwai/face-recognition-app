@@ -6,13 +6,10 @@ import Rank from '../components/Rank/Rank';
 import './App.css';
 import Particles from 'react-particles-js';
 import { useEffect, useState } from 'react';
-import Clarifai from 'clarifai';
-import { API_KEY } from '../key.js';
 import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
 import userServices from '../components/services/userServices';
 
-const app = new Clarifai.App({ apiKey: API_KEY });
 const defaultUserStatus = {
   id: '',
   name: '',
@@ -46,7 +43,7 @@ function App() {
     setImageUrl(input);
     const fetchResponse = async () => {
       try {
-        const res = await app.models.predict(Clarifai.FACE_DETECT_MODEL, input);
+        const res = await userServices.callClarifai(input);
         displayFaceLocations(calculateFaceLocations(res));
         updateRankings();
       } catch (error) {
