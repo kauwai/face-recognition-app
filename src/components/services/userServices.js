@@ -27,5 +27,29 @@ const signIn = async (user) => {
   }
 };
 
+const update = async (currentUser) => {
+  try {
+    const updatedUser = await fetch('http://localhost:8080/image', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(currentUser),
+    });
+    const jsonUser = await updatedUser.json();
+    return jsonUser;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAll = async () => {
+  try {
+    const users = await fetch('http://localhost:8080/');
+    const jsonUsers = await users.json();
+    return jsonUsers;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { create, signIn };
+export default { create, signIn, update, getAll };

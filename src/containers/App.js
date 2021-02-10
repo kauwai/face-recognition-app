@@ -10,6 +10,7 @@ import Clarifai from 'clarifai';
 import { API_KEY } from '../key.js';
 import SignIn from '../components/SignIn/SignIn';
 import Register from '../components/Register/Register';
+import userServices from '../components/services/userServices';
 
 const app = new Clarifai.App({ apiKey: API_KEY });
 const defaultUserStatus = {
@@ -31,13 +32,8 @@ function App() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        const users = await fetch('http://localhost:8080/');
-        const jsonUsers = await users.json();
-        setAllUsers(jsonUsers);
-      } catch (error) {
-        console.log(error);
-      }
+      const jsonUsers = await userServices.getAll();
+      setAllUsers(jsonUsers);
     };
     fetchUsers();
   }, [currentUser]);
@@ -58,13 +54,8 @@ function App() {
       }
     };
     const updateRankings = async () => {
-      const updatedUser = await fetch('http://localhost:8080/image', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(currentUser),
-      });
-      const jsonUser = await updatedUser.json();
-      setCurrentUser(jsonUser);
+      const updatedUser = await userServices.update(currentUser);
+      setCurrentUser(updatedUser);
     };
     fetchResponse();
   };
