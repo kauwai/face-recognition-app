@@ -20,7 +20,6 @@ const signIn = async (user) => {
       body: JSON.stringify(user),
     });
     const signedUser = await response.json();
-    console.log(signedUser.id);
     return signedUser;
   } catch (error) {
     console.log(error);
