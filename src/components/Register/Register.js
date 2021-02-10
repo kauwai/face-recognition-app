@@ -20,7 +20,8 @@ export default function Register({ onRouteChange, onUpdateUser }) {
           onUpdateUser(newUser);
           onRouteChange('home');
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <form onSubmit={(event) => event.preventDefault()}>

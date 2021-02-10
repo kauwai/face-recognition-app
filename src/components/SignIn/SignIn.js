@@ -19,7 +19,8 @@ export default function SignIn({ onRouteChange, onUpdateUser }) {
           onUpdateUser(user);
           onRouteChange('home');
         }
-      });
+      })
+      .catch((err) => console.log(err));
   };
   const handleRegisterClick = () => onRouteChange('register');
   return (

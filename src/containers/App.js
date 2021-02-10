@@ -31,9 +31,13 @@ function App() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const users = await fetch('http://localhost:8080/');
-      const jsonUsers = await users.json();
-      setAllUsers(jsonUsers);
+      try {
+        const users = await fetch('http://localhost:8080/');
+        const jsonUsers = await users.json();
+        setAllUsers(jsonUsers);
+      } catch (error) {
+        console.log(error);
+      }
     };
     fetchUsers();
   }, [currentUser]);
