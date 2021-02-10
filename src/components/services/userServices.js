@@ -1,6 +1,8 @@
+const apiRoot = 'https://smart-brain-api-kauwai.herokuapp.com';
+
 const create = async (user) => {
   try {
-    const response = await fetch('http://localhost:8080/register', {
+    const response = await fetch(`${apiRoot}/register`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -14,7 +16,7 @@ const create = async (user) => {
 
 const signIn = async (user) => {
   try {
-    const response = await fetch('http://localhost:8080/signin', {
+    const response = await fetch(`${apiRoot}/signin`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -28,7 +30,7 @@ const signIn = async (user) => {
 
 const update = async (currentUser) => {
   try {
-    const updatedUser = await fetch('http://localhost:8080/image', {
+    const updatedUser = await fetch(`${apiRoot}/image`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(currentUser),
@@ -42,7 +44,7 @@ const update = async (currentUser) => {
 
 const getAll = async () => {
   try {
-    const users = await fetch('http://localhost:8080/');
+    const users = await fetch(apiRoot);
     const jsonUsers = await users.json();
     return jsonUsers;
   } catch (error) {
@@ -52,7 +54,7 @@ const getAll = async () => {
 
 const callClarifai = async (input) => {
   try {
-    const response = await fetch('http://localhost:8080/apiCall', {
+    const response = await fetch(`${apiRoot}/apiCall`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ input }),
